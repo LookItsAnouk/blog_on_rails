@@ -1,0 +1,16 @@
+<h1>Post Show page</h1>
+
+<h1><%= @post.title %></h1>
+
+<p><%= @post.body %></p>
+
+<p>Created <%= time_ago_in_words(@post.created_at) %> ago </p>
+
+<% #if can? :crud, @post %>
+<p><%= button_to "Edit", edit_post_path(@post), method: :get%></p>
+
+<p><%= link_to "Delete", post_path(@post.id), data: {turbo_method: :delete, turbo_confirm: "Are you sure"} %></p>
+<% #end %>
+<ul>
+
+ 
