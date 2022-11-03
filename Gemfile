@@ -48,6 +48,7 @@ gem 'faker'
 
 # Use Sass to process CSS
  gem "sassc-rails"
+ gem 'bootstrap', '~> 5.1', '>= 5.1.3'
 
  gem 'cancancan'
 

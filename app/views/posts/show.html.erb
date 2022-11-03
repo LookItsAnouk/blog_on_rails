@@ -1,4 +1,4 @@
-<h1>Post Show page</h1>
+<%= render "navBar" %>
 
 <h1><%= @post.title %></h1>
 
@@ -6,11 +6,9 @@
 
 <p>Created <%= time_ago_in_words(@post.created_at) %> ago </p>
 
-<% #if can? :crud, @post %>
-<p><%= button_to "Edit", edit_post_path(@post), method: :get%></p>
+<p><%= button_to "Edit", edit_post_path(@post), method: :get%>
 
-<p><%= link_to "Delete", post_path(@post.id), data: {turbo_method: :delete, turbo_confirm: "Are you sure"} %></p>
-<% #end %>
+<%= button_to "Delete", post_path(@post.id), data: {turbo_method: :delete, turbo_confirm: "Are you sure"} %></p>
 <ul>
 
 <% @post.comments.each do |com| %>
@@ -23,5 +21,6 @@
 <%= @comment.errors.full_messages.join(', ') %>
 <%= form_for [@post, @comment] do |f| %>
     <%= f.text_area :body %>
+    <br>
     <%= f.submit %>
   <% end %>
