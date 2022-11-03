@@ -13,4 +13,15 @@
 <% #end %>
 <ul>
 
- 
+<% @post.comments.each do |com| %>
+    <%= com.body %>
+    <p>Created <%= time_ago_in_words(com.created_at) %> ago </p>
+    <%= link_to 'Delete',  post_comment_path(@post.id, com.id), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+    <hr>
+  <% end %>
+
+<%= @comment.errors.full_messages.join(', ') %>
+<%= form_for [@post, @comment] do |f| %>
+    <%= f.text_area :body %>
+    <%= f.submit %>
+  <% end %>
