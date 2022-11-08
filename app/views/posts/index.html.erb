@@ -1,0 +1,12 @@
+<%= render "navBar" %>
+
+<div class="card-columns" >
+  <% @posts.each do |post| %>
+    <div class="card ">
+      <div class="card-body">
+        <h5 class="card-title"><%= link_to post.title, post %></h5>
+        <p class="card-text"><%= post.body %></p>
+      </div>    
+    </div>  
+  <% end %>
+</div>
