@@ -8,19 +8,21 @@
 
 <p><%= button_to "Edit", edit_post_path(@post), method: :get%>
 
-<%= button_to "Delete", post_path(@post.id), data: {turbo_method: :delete, turbo_confirm: "Are you sure"} %></p>
-<ul>
+<%= button_to "Delete", post_path(@post.id), method: :delete, data: {confirm: "Are you sure"} %></p>
+
 
 <% @post.comments.each do |com| %>
     <%= com.body %>
-    <p>Created <%= time_ago_in_words(com.created_at) %> ago </p>
-    <%= link_to 'Delete',  post_comment_path(@post.id, com.id), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+    <p>Created <%= time_ago_in_words(com.created_at) %> ago 
+      <%= link_to 'Delete',  post_comment_path(@post.id, com.id), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+    </p>
     <hr>
-  <% end %>
-
+<% end %>
+ 
 <%= @comment.errors.full_messages.join(', ') %>
 <%= form_for [@post, @comment] do |f| %>
     <%= f.text_area :body %>
     <br>
     <%= f.submit %>
-  <% end %>
+<% end %>
+

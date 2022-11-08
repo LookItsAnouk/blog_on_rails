@@ -1,9 +1,7 @@
 class PostsController < ApplicationController
     before_action :find_post, only: [:show, :edit, :update, :destroy]
     
-
     def index
-      #@products = Product.order(created_at: :desc)
       @posts = Post.order(created_at: :desc)
     end
 
@@ -12,39 +10,38 @@ class PostsController < ApplicationController
       
     end
 
-      def create
-        @post = Post.new(post_params)
-        if @post.save
-          flash[:success] = "Post successfully created"
+    def create
+      @post = Post.new(post_params)
+      if @post.save
+        flash[:success] = "Post successfully created"
+        redirect_to @post
+      else
+        flash[:error] = "Something went wrong"
+        render 'new'
+      end
+    end
+    
+    def show
+      @comment = Comment.new
+    end
+
+    def edit
+    end
+
+    def update
+      if @post.update(post_params)
+          flash[:success] = "Post successfully updated"
           redirect_to @post
         else
           flash[:error] = "Something went wrong"
-          render 'new'
+          render :edit  
         end
-      end
-    
-      def show
-
-        @comment = Comment.new
-      end
-
-      def edit
-      end
-
-      def update
-        if @post.update(post_params)
-            flash[:success] = "Post successfully updated"
-            redirect_to @post
-          else
-            flash[:error] = "Something went wrong"
-            render :edit  
-          end
     end  
     
-      def destroy
-        @post.destroy
-        redirect_to posts_path
-      end
+    def destroy
+      @post.destroy
+      redirect_to posts_path
+    end
     
     private
 
@@ -55,7 +52,5 @@ class PostsController < ApplicationController
     def find_post
         @post = Post.find params[:id]
     end
-
-
 
 end

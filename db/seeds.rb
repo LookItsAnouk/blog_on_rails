@@ -9,13 +9,22 @@
 
 
 Post.destroy_all
-
+Comment.destroy_all
 
 50.times do
-    Post.create(
-        title: Faker::Lorem.sentence,
-        body: Faker::Lorem.characters(number: 50),
-    )
- end
+    p = Post.create(
+        title: Faker::Marketing.buzzwords + rand(100_000).to_s,
+        body: Faker::GreekPhilosophers.quote + " " + Faker::Lorem.characters(number: 50)
+        )
+    if p.valid?
+        rand(1..5).times do
+            Comment.create(body: Faker::Hacker.say_something_smart, post: p)
+        end
+    end
+
+end
+
+posts = Post.all
+comments = Comment.all
 
 puts "done generating"
