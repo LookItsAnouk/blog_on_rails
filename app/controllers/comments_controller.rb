@@ -1,10 +1,11 @@
 class CommentsController < ApplicationController
+    before_action :authenticate_user!, except: [:show, :index]
     before_action :find_post
 
     def create
         @comment   = Comment.new(comment_params)
         @comment.post = @post
-        
+        @comment.user = current_user
         if @comment.save
             flash[:success] = "Comment successfully created"
             redirect_to post_path(@post)
