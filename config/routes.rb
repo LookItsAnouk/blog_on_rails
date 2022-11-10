@@ -5,7 +5,13 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :destroy]
   end
 
-  resources :users, only: [:new, :create, :edit]
+  resources :users, only: [:new, :create, :edit, :update]
 
-  resource :sessions, only: [:new, :destroy, :create]
+  get 'users/:id/newpass', to: 'users#newpass', as: :newpass_user
+
+  patch 'users/:id/update_password', to: 'users#update_password', as: :update_password
+
+  resource :session, only: [:new, :destroy, :create]
+
+
 end

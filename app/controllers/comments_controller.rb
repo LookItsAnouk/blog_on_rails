@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
     before_action :authenticate_user!, except: [:show, :index]
     before_action :find_post
+    before_action :authorize_user!, only:[:edit, :update, :destroy]
 
     def create
         @comment   = Comment.new(comment_params)
@@ -17,9 +18,12 @@ class CommentsController < ApplicationController
 
     def destroy
         @comment = Comment.find params[:id]
-        @comment.destroy
-        redirect_to post_path(@post)
-        flash[:success] = "Comment deleted"
+        if can?(:crud, @comment)
+            @comment.destroy
+            redirect_to post_path(@post)
+            flash[:success] = "Comment deleted"
+        else   
+            redirect_to root_path, alert: "Not athorized to change Comment!"
     end
 
     private
@@ -29,5 +33,9 @@ class CommentsController < ApplicationController
     
     def comment_params
         params.require(:comment).permit(:body)
+    end
+
+    def authorize_user!
+        redirect_to root_path, alert: "Not authorized!" unless can?(:crud, @comment)
     end
 end
