@@ -5,15 +5,14 @@ class Ability
 
     user ||= User.new #guest user (not logged in)
 
-    can :read, :all
+    if user.admin?
+        can :manage, :all
+    elsif user.present?
+        can :create, :update, :destroy, :all
+    else
+        can :read, :all
+    end
 
-    return unless user.present?
-    
-    can [:read, :update], :all, user: user
-    
-    return unless user.admin?
-    
-    can :manage, :all
 
 
     alias_action :create, :read, :update, :delete, :to => :crud

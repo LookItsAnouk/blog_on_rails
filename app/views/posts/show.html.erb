@@ -6,15 +6,17 @@
 
 <p>Created <%= time_ago_in_words(@post.created_at) %> ago </p>
 
-<p><%= button_to "Edit", edit_post_path(@post), method: :get%>
-
-<%= button_to "Delete", post_path(@post.id), method: :delete, data: {confirm: "Are you sure"} %></p>
-
+<% if can? :crud, @post %>
+  <%= button_to "Edit", edit_post_path(@post), method: :get%>
+  <%= button_to "Delete", post_path(@post.id), method: :delete, data: {confirm: "Are you sure"} %></p>
+<% end %>
 
 <% @post.comments.each do |com| %>
     <%= com.body %>
     <p>Created <%= time_ago_in_words(com.created_at) %> ago 
+    <% if can? :crud, com %>
       <%= link_to 'Delete',  post_comment_path(@post.id, com.id), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+    <% end %>
     </p>
     <hr>
 <% end %>
